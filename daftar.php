@@ -19,8 +19,9 @@
                 padding: 30px;
                 border-radius: 10px;
                 box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-                max-width: 600px;
+                max-width: 700px;
                 width: 100%;
+                overflow-x: auto;
             }
             h1{
                 text-align: center;
@@ -44,18 +45,17 @@
                 margin-bottom: 20px;
             }
             th, td{
-                padding: 12px;
-                text-align: left;
+                padding: 10px;
+                text-align: center;
                 border-bottom: 1px solid #ddd;
             }
             th{
                 background-color: #f8f9fa;
                 font-weight: bold;
                 color: #333;
-                width: 30%;
             }
-            td{
-                color: #666;
+            tr:nth-child(even){
+                background-color: #f2f2f2;
             }
             .back-button{
                 text-align: center;
@@ -78,15 +78,47 @@
     <body>
         <div class="container">
             <h1>Data Registrasi User</h1>
-            
+
             <?php if (isset($_POST['submit'])): ?>
+                <?php
+                    $namaDepan = strtoupper(htmlspecialchars($_POST['nama_depan']));
+                    $namaBelakang = strtoupper(htmlspecialchars($_POST['nama_belakang']));
+                    $asalKota = strtoupper(htmlspecialchars($_POST['asal_kota']));
+                    $umur = intval($_POST['umur']);
+                    $namaLengkap = trim($namaDepan . ' ' . $namaBelakang);
+                ?>
+
                 <div class="success-message">
                     Registrasi Berhasil!
                 </div>
-                
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Lengkap</th>
+                            <th>Umur</th>
+                            <th>Asal Kota</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php for ($i = 1; $i <= $umur; $i++): ?>
+                            <?php if ($i % 2 == 0 && $i != 4 && $i != 8): ?>
+                                <tr>
+                                    <td><?= $i; ?></td>
+                                    <td><?= $namaLengkap; ?></td>
+                                    <td><?= $umur; ?> tahun</td>
+                                    <td><?= $asalKota; ?></td>
+                                </tr>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                    </tbody>
+                </table>
+
                 <div class="back-button">
                     <a href="index.html">Kembali ke Form Registrasi</a>
                 </div>
+
             <?php else: ?>
                 <div style="text-align: center; color: #dc3545; padding: 20px;">
                     <h3>Error: Data tidak ditemukan</h3>
